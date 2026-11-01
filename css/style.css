@@ -1,0 +1,534 @@
+/* Cuneiform Reader — shared styles */
+
+:root {
+  --bg: #ffffff;
+  --bg-2: #f4f4f4;
+  --panel: #ffffff;
+  --ink: #1c1c1c;
+  --muted: #6e6e6e;
+  --line: #e3e3e3;
+  --accent: #9c4a1a;
+  --accent-soft: rgba(156, 74, 26, 0.12);
+  --hl: rgba(214, 160, 60, 0.18);
+  --hl-strong: rgba(214, 160, 60, 0.38);
+  --det: #2f6b8f;
+  --restored: #a0a0a0;
+  --font-cu: 'Noto Sans Cuneiform', 'Segoe UI Historic', 'CuneiformComposite', 'Santakku', 'Assurbanipal', serif;
+  --font-text: 'Century Schoolbook', 'Noto Serif', Georgia, serif;
+  --cu-size: 26px;
+  --reading-size: 0.78rem;
+}
+
+/* Dark theme is opt-in: <html data-theme="dark"> */
+:root[data-theme="dark"] {
+  --bg: #1b1713;
+  --bg-2: #241f19;
+  --panel: #221d18;
+  --ink: #efe6d6;
+  --muted: #a2937e;
+  --line: #3a3127;
+  --accent: #e0905a;
+  --accent-soft: rgba(224, 144, 90, 0.16);
+  --hl: rgba(224, 170, 80, 0.16);
+  --hl-strong: rgba(224, 170, 80, 0.34);
+  --det: #7fb6d8;
+  --restored: #7d7265;
+}
+
+/* Century Schoolbook: the installed font when present, otherwise the bundled
+   TeX Gyre Schola (a free Century Schoolbook design, GUST Font License). */
+@font-face {
+  font-family: 'Century Schoolbook';
+  font-display: swap;
+  /* leave subscript digits (U+2080-209F) to a fallback font: Schoolbook draws them full size */
+  unicode-range: U+0000-207F, U+20A0-10FFFF;
+  font-style: normal;
+  font-weight: 400;
+  src: local('Century Schoolbook'), local('CenturySchoolbook'), local('New Century Schoolbook'),
+       url('../fonts/texgyreschola-regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Century Schoolbook';
+  font-display: swap;
+  /* leave subscript digits (U+2080-209F) to a fallback font: Schoolbook draws them full size */
+  unicode-range: U+0000-207F, U+20A0-10FFFF;
+  font-style: normal;
+  font-weight: 700;
+  src: local('Century Schoolbook Bold'), local('CenturySchoolbook-Bold'),
+       url('../fonts/texgyreschola-bold.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Century Schoolbook';
+  font-display: swap;
+  /* leave subscript digits (U+2080-209F) to a fallback font: Schoolbook draws them full size */
+  unicode-range: U+0000-207F, U+20A0-10FFFF;
+  font-style: italic;
+  font-weight: 400;
+  src: local('Century Schoolbook Italic'), local('CenturySchoolbook-Italic'),
+       url('../fonts/texgyreschola-italic.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Century Schoolbook';
+  font-display: swap;
+  /* leave subscript digits (U+2080-209F) to a fallback font: Schoolbook draws them full size */
+  unicode-range: U+0000-207F, U+20A0-10FFFF;
+  font-style: italic;
+  font-weight: 700;
+  src: local('Century Schoolbook Bold Italic'), local('CenturySchoolbook-BoldItalic'),
+       url('../fonts/texgyreschola-bolditalic.otf') format('opentype');
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.cu-text { font-family: var(--font-cu); }
+
+/* ------------------------------------------------------------------ */
+/* Library                                                             */
+/* ------------------------------------------------------------------ */
+
+.site-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 1rem 1.5rem;
+}
+
+.site-header h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.25rem;
+}
+
+.site-header .kicker {
+  font-family: var(--font-cu);
+  font-size: 1.6rem;
+  color: var(--accent);
+  margin: 0;
+}
+
+
+.library-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  display: block;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem 1.1rem;
+  color: inherit;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-cu {
+  font-family: var(--font-cu);
+  font-size: 1.9rem;
+  line-height: 1.3;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  overflow-wrap: anywhere;
+}
+
+.card h2 { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.3rem; }
+.card-tr { color: var(--muted); font-size: 0.9rem; margin: 0 0 0.35rem; }
+.card-meta { color: var(--muted); font-size: 0.8rem; margin: 0; }
+
+/* ------------------------------------------------------------------ */
+/* Reader chrome                                                       */
+/* ------------------------------------------------------------------ */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 1rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar .back { font-size: 0.9rem; white-space: nowrap; }
+.bar h1 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+.bar .meta { color: var(--muted); font-size: 0.8rem; }
+.bar .controls {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.bar .controls label { display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+.bar .controls input[type="range"] { width: 90px; }
+.bar .controls input[type="checkbox"] { accent-color: var(--accent); }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 19.5rem;
+  gap: 0;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.text-wrap { padding: 1rem 1rem 6rem 0.5rem; min-width: 0; }
+
+/* ------------------------------------------------------------------ */
+/* The aligned grid: line no | cuneiform | translation                 */
+/* ------------------------------------------------------------------ */
+
+.text-grid {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1.35fr) minmax(0, 1fr);
+  column-gap: 1rem;
+  align-items: stretch;
+}
+
+.ln, .cu, .en { border-top: 1px solid transparent; }
+
+.ln {
+  grid-column: 1;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  /* centre the number on the first glyph row: cu top padding + half a glyph line box */
+  padding: calc(0.35rem + 1.875 * var(--cu-size) - 0.39rem) 0.25rem 0 0;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  transition: background 100ms;
+}
+
+.cu {
+  grid-column: 2;
+  /* room above the glyphs for the hover reading label */
+  padding: calc(0.35rem + 1.25em) 0.25rem 0.45rem 0;
+  font-size: var(--cu-size);
+  line-height: 1.25;
+  transition: background 100ms;
+  overflow-wrap: anywhere;
+}
+
+.cu.indent { padding-left: 1.5em; }
+
+.en {
+  grid-column: 3;
+  font-size: 1rem;
+  line-height: 1.55;
+  padding: 0.5rem 0.9rem 0.6rem 0.9rem;
+  border-left: 2px solid var(--line);
+  transition: background 100ms, border-color 100ms;
+  cursor: default;
+}
+
+.en p { margin: 0; }
+.en-lines {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.1rem;
+  font-variant-numeric: tabular-nums;
+}
+.en.fallback .en-lines::after { content: " · paragraph"; }
+
+/* words and signs */
+
+.w {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.45em;
+  border-radius: 4px;
+  padding: 0 0.04em;
+}
+
+.w.proper .gl { }
+
+.sg {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.gl {
+  font-family: var(--font-cu);
+  font-size: 1em;
+  line-height: 1.25;
+  padding: 0 0.02em;
+  display: inline-block;
+  min-width: 0.3em;
+  transition: color 80ms;
+}
+
+.rd {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 0.15em);
+  transform: translateX(-50%);
+  font-family: var(--font-text);
+  font-size: var(--reading-size);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--accent);
+  background: var(--panel);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 70ms;
+  z-index: 5;
+}
+
+.sg.hover .rd, .sg.pinned .rd { opacity: 1; }
+.sg.hover .gl, .sg.pinned .gl { color: var(--accent); }
+.sg.pinned { outline: 2px solid var(--accent); outline-offset: 1px; }
+.w.hover { background: var(--accent-soft); }
+
+/* interlinear mode: readings sit in the flow above every sign */
+body.readings .cu { padding-top: 0.45rem; }
+body.readings .ln { padding-top: calc(0.45rem + 0.58rem + 0.625 * var(--cu-size)); }
+body.readings .sg {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.08em;
+}
+body.readings .rd {
+  position: static;
+  transform: none;
+  opacity: 1;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+  padding: 0 0 0.25em;
+}
+body.readings .sg.hover .rd, body.readings .sg.pinned .rd { color: var(--accent); }
+
+/* sign states */
+.sg.det .gl { color: var(--det); }
+.sg.det .rd { font-style: italic; }
+.sg.dmg-r .gl { color: var(--restored); }
+.sg.dmg-r .gl::after,
+.sg.dmg-d .gl::after { content: ""; }
+.sg.dmg-r { border-bottom: 2px dotted var(--restored); }
+.sg.dmg-d { border-bottom: 2px dotted color-mix(in srgb, var(--ink) 40%, transparent); }
+.sg.ins .gl { opacity: 0.75; }
+.sg.extra .gl { text-decoration: line-through; text-decoration-color: var(--accent); }
+.sg.k-x .gl {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.95em;
+  vertical-align: -0.12em;
+  border: 2px dashed var(--restored);
+  border-radius: 3px;
+}
+.sg.k-gap .gl { font-family: var(--font-text); color: var(--restored); letter-spacing: 0.1em; font-size: 0.8em; }
+.gl.nogl {
+  font-family: var(--font-text);
+  font-size: 0.55em;
+  border: 1px dashed var(--restored);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+  vertical-align: 0.2em;
+}
+
+.mark {
+  display: inline-block;
+  font-family: var(--font-text);
+  font-size: 0.7rem;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0 0.3em;
+  vertical-align: 0.6em;
+  margin-left: 0.2em;
+  cursor: help;
+}
+
+/* transliteration line */
+.tl {
+  display: none;
+  font-family: var(--font-text);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+body.translit .tl { display: block; }
+
+/* line & chunk highlighting */
+.ln.in-chunk, .cu.in-chunk { background: var(--hl); }
+.ln.is-line, .cu.is-line { background: var(--hl-strong); }
+.en.is-chunk { background: var(--hl-strong); border-left-color: var(--accent); }
+.ln.is-line { color: var(--accent); font-weight: 700; }
+
+.ln.flash, .cu.flash { animation: flash 1.6s ease-out 1; }
+@keyframes flash {
+  0% { background: var(--hl-strong); }
+  100% { background: transparent; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Inspector                                                           */
+/* ------------------------------------------------------------------ */
+
+.inspector {
+  position: sticky;
+  top: 3.4rem;
+  align-self: start;
+  height: calc(100vh - 3.4rem);
+  overflow: auto;
+  border-left: 1px solid var(--line);
+  background: var(--panel);
+  padding: 1rem 1.1rem 2rem;
+  font-size: 0.88rem;
+}
+
+.inspector h3 {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 1.1rem 0 0.4rem;
+  font-weight: 700;
+}
+.inspector h3:first-child { margin-top: 0; }
+
+.insp-glyph {
+  font-family: var(--font-cu);
+  font-size: 4.2rem;
+  line-height: 1.1;
+  color: var(--accent);
+  margin: 0.1rem 0 0.2rem;
+  min-height: 1.1em;
+}
+.insp-glyph.det { color: var(--det); }
+
+.insp-reading { font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
+.insp-sub { color: var(--muted); font-size: 0.82rem; }
+
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.7rem; margin: 0.4rem 0 0; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; overflow-wrap: anywhere; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
+.chip {
+  font-size: 0.78rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  color: var(--muted);
+}
+.chip.flag { border-color: var(--accent); color: var(--accent); }
+
+.insp-word { font-size: 1.05rem; }
+.insp-word .lemma { font-weight: 700; }
+.insp-word .pos { color: var(--muted); font-size: 0.8rem; }
+.insp-gloss { margin-top: 0.15rem; }
+
+.insp-line-text { font-style: italic; }
+.insp-note { color: var(--muted); font-size: 0.82rem; margin: 0.25rem 0 0; }
+.insp-var { margin: 0.4rem 0 0; padding-left: 0.6rem; border-left: 2px solid var(--line); }
+.insp-var .cu-text { font-size: 1.4rem; line-height: 1.3; display: block; }
+.insp-var .vnote { color: var(--muted); font-size: 0.78rem; }
+
+
+.kbd {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.75rem;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 0.3rem;
+  background: var(--bg-2);
+}
+
+
+.text-sources {
+  max-width: 60rem;
+  margin: 2.5rem 0 0 3.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.text-sources p { margin: 0 0 0.5rem; }
+
+.loading, .error { padding: 3rem 1rem; color: var(--muted); text-align: center; }
+.error { color: var(--accent); }
+
+/* ------------------------------------------------------------------ */
+/* Narrow screens                                                      */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 980px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .text-wrap { padding: 0.75rem 0.75rem 16rem 0.25rem; }
+  .inspector {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    max-height: 42vh;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12);
+    padding: 0.75rem 1rem 1rem;
+    z-index: 30;
+  }
+  .insp-glyph { font-size: 2.6rem; }
+  .inspector h3 { margin-top: 0.7rem; }
+  .text-grid { grid-template-columns: 2.4rem minmax(0, 1fr); }
+  .en {
+    grid-column: 2;
+    border-left: 0;
+    border-top: 1px dashed var(--line);
+    padding: 0.4rem 0 0.6rem;
+    font-size: 0.95rem;
+  }
+  .bar .controls { gap: 0.6rem; }
+}
+
+@media (max-width: 980px) {
+  /* On narrow screens, the English can't share rows with the cuneiform, so it is placed
+     directly after its last line instead (grid-row is set from JS). */
+  body.stacked .en { grid-row: auto; }
+}

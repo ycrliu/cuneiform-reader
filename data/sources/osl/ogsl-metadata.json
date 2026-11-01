@@ -1,0 +1,22 @@
+{
+  "type": "metadata",
+  "project": "ogsl",
+  "source": "http://oracc.org/ogsl",
+  "license": "This data is released under the CC0 license",
+  "license-url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "more-info": "http://oracc.org/doc/opendata/",
+  "UTC-timestamp": "2024-02-14T02:09:24",
+  "config": {
+    "pathname": "ogsl",
+    "name": "Oracc Global Sign List",
+    "abbrev": "OGSL",
+    "project-type": "signlist",
+    "blurb": "Provides a global registry of sign names, variants and readings for use by Oracc.  Managed by Niek Veldhuis at UC Berkeley and Steve Tinney and the University of Pennsylvania.",
+    "public": "yes",
+    "options": {
+      "serve-host": "build-oracc.museum.upenn.edu",
+      "serve-subs": "signlist"
+    }
+  },
+  "formats": {}
+}

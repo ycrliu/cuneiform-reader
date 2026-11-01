@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuneiform Reader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Cuneiform&display=swap" rel="stylesheet">
+<!-- subscript digits only: Century Schoolbook has none, so Noto Serif supplies ₀-₉ and ₓ -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif&text=%E2%82%80%E2%82%81%E2%82%82%E2%82%83%E2%82%84%E2%82%85%E2%82%86%E2%82%87%E2%82%88%E2%82%89%E2%82%93&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath fill=%27%239c4a1a%27 d=%27M4 6 L12 10 L4 14 Z M14 6 L22 10 L14 14 Z M4 18 L28 22 L4 26 Z%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="reader">
+<header class="bar">
+  <a class="back" href="./">← Library</a>
+  <div>
+    <h1 id="title">…</h1>
+    <div class="meta" id="meta"></div>
+  </div>
+  <div class="controls">
+    <label title="Show the reading of every sign above it"><input type="checkbox" id="opt-readings"> Readings above signs</label>
+    <label title="Show the ETCSL transliteration under each line"><input type="checkbox" id="opt-translit"> Transliteration</label>
+    <label title="Cuneiform size">Size <input type="range" id="opt-size" min="20" max="52" step="1" value="26"></label>
+  </div>
+</header>
+<div class="layout">
+  <div class="text-wrap">
+    <main id="text" class="text-grid"><p class="loading">Loading text…</p></main>
+    <footer id="sources" class="text-sources"></footer>
+  </div>
+  <aside id="inspector" class="inspector"></aside>
+</div>
+<script type="module" src="js/reader.js"></script>
+</body>
+</html>
